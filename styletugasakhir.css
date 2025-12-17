@@ -1,0 +1,173 @@
+* {
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #f4f6f9;
+  color: #222;
+  line-height: 1.5;
+}
+
+
+header {
+  background: #1e88e5;
+  color: #fff;
+  padding: 18px 16px;
+}
+
+header .small {
+  font-size: 0.85rem;
+  opacity: 0.95;
+}
+
+.photo {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #fff;
+  color: #1e88e5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  background: #1565c0;
+  padding: 10px;
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  transition: background 0.2s;
+}
+
+nav a:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+
+section {
+  padding: 20px;
+}
+
+section[id] {
+  display: none;
+}
+
+h2 {
+  margin: 0 0 12px;
+  color: #1e88e5;
+}
+
+
+.card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+
+.container-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.smalltext {
+  font-size: 0.85rem;
+  color: #555;
+}
+
+
+.btn {
+  background: #1e88e5;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.btn:hover {
+  background: #1565c0;
+}
+
+
+input[type="text"],
+input[type="number"],
+select {
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 0.9rem;
+}
+
+input[type="number"] {
+  text-align: center;
+}
+
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  font-size: 0.9rem;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 6px;
+  text-align: center;
+}
+
+th {
+  background: #e3f2fd;
+  color: #0d47a1;
+}
+
+tr:nth-child(even) td {
+  background: #fafafa;
+}
+
+
+.center {
+  text-align: center;
+}
+
+.hidden {
+  display: none;
+}
+
+
+fieldset {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 12px;
+}
+
+legend {
+  padding: 0 6px;
+  font-weight: bold;
+  color: #1e88e5;
+}
+
+
+@media (max-width: 600px) {
+  nav {
+    flex-direction: column;
+  }
+}
