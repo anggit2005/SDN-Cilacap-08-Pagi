@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>SDN Cilacap 08 Pagi — Sistem Kelas 5B</title>
+  <link rel="stylesheet" href="styletugasakhir.css">
+</head>
+<body>
+
+<script>
+if(localStorage.getItem("login")!=="true"){
+  location.href="formLogin.html";
+}
+</script>
+
+<header>
+  <section style="display:flex;align-items:center;justify-content:center;gap:12px;">
+    <span class="photo">A</span>
+    <section>
+      <span style="display:block;font-size:1.2rem;font-weight:700">
+        SDN Cilacap 08 Pagi
+      </span>
+      <span class="small">
+        Wali Kelas 5B : <span id="namaGuru"></span>
+      </span>
+    </section>
+  </section>
+</header>
+
+<nav>
+  <a href="#" onclick="showPage('dashboard')">Dashboard</a>
+  <a href="#" onclick="showPage('murid')">Daftar Murid</a>
+  <a href="#" onclick="showPage('presensi')">Presensi</a>
+  <a href="#" onclick="showPage('nilai')">Nilai</a>
+  <a href="#" onclick="showPage('rekap')">Rekap</a>
+  <a href="#" onclick="showPage('jadwal')">Jadwal</a>
+  <a href="#" onclick="logout()">Logout</a>
+</nav>
+
+<section id="dashboard">
+  <h2>Dashboard</h2>
+  <article class="card">
+    <p id="statMurid"></p>
+    <p id="statRata">Rata-rata Kelas: -</p>
+    <p id="statLulus">Murid Lulus: -</p>
+  </article>
+</section>
+
+<section id="murid">
+  <h2>Daftar Murid</h2>
+  <article class="card">
+    <input type="text" id="searchM" placeholder="Cari murid..." onkeyup="cariMurid()">
+    <table id="tabelMurid">
+      <tr><th>No</th><th>Nama Murid</th></tr>
+    </table>
+  </article>
+</section>
+
+<section id="presensi">
+  <h2>Presensi</h2>
+  <article class="card">
+    <table id="tabelPresensi">
+      <tr>
+        <th>No</th><th>Nama</th>
+        <th>Sen</th><th>Sel</th><th>Rab</th><th>Kam</th><th>Jum</th>
+        <th>%</th>
+      </tr>
+    </table>
+    <br>
+    <button class="btn" onclick="hitungPresensi()">Hitung Presensi</button>
+  </article>
+</section>
+
+<section id="nilai">
+  <h2>Input Nilai</h2>
+  <article class="card">
+    <table id="tabelNilai">
+      <tr>
+        <th>No</th><th>Nama</th>
+        <th>Mat</th><th>B.Ind</th><th>IPA</th><th>IPS</th><th>PPKN</th>
+      </tr>
+    </table>
+    <br>
+   <button class="btn" onclick="hitungNilai()">Hitung Nilai</button>
+  </article>
+</section>
+
+<section id="rekap">
+  <h2>Rekap Mingguan</h2>
+  <article class="card">
+    <p id="hasilRekap">Silakan hitung nilai terlebih dahulu.</p>
+  </article>
+</section>
+
+<section id="jadwal">
+  <h2>Jadwal Pelajaran</h2>
+  <article class="card">
+    <table>
+      <tr><th>Hari</th><th>Pelajaran</th></tr>
+      <tr><td>Senin</td><td>Matematika, IPA</td></tr>
+      <tr><td>Selasa</td><td>B. Indonesia, IPS</td></tr>
+      <tr><td>Rabu</td><td>PPKN, Matematika</td></tr>
+      <tr><td>Kamis</td><td>IPA, B. Indonesia</td></tr>
+      <tr><td>Jumat</td><td>IPS, PPKN</td></tr>
+    </table>
+  </article>
+</section>
+
+<script>
+document.getElementById("namaGuru").textContent =
+  localStorage.getItem("nama");
+
+const murid=[
+"Andi Saputra","Budi Santoso","Citra Lestari","Dewi Anggraini",
+"Eko Pratama","Fajar Nugroho","Gita Rahma","Hendra Wijaya",
+"Intan Permata","Joko Setiawan"];
+
+document.getElementById("statMurid").textContent =
+  "Jumlah Murid: "+murid.length;
+
+murid.forEach((n,i)=>{
+  tabelMurid.innerHTML+=`<tr><td>${i+1}</td><td>${n}</td></tr>`;
+  tabelPresensi.innerHTML+=`
+  <tr>
+    <td>${i+1}</td><td>${n}</td>
+    <td><input type="checkbox" id="p${i}1"></td>
+    <td><input type="checkbox" id="p${i}2"></td>
+    <td><input type="checkbox" id="p${i}3"></td>
+    <td><input type="checkbox" id="p${i}4"></td>
+    <td><input type="checkbox" id="p${i}5"></td>
+    <td id="pp${i}">0%</td>
+  </tr>`;
+  tabelNilai.innerHTML+=`
+  <tr>
+    <td>${i+1}</td><td>${n}</td>
+    <td><input id="n${i}1"></td>
+    <td><input id="n${i}2"></td>
+    <td><input id="n${i}3"></td>
+    <td><input id="n${i}4"></td>
+    <td><input id="n${i}5"></td>
+  </tr>`;
+});
+
+function hitungPresensi(){
+  murid.forEach((n,i)=>{
+    let h=0;
+    for(let d=1;d<=5;d++)
+      if(document.getElementById(`p${i}${d}`).checked) h++;
+    document.getElementById(`pp${i}`).innerText=
+      Math.round(h/5*100)+"%";
+  });
+}
+
+function hitungNilai(){
+  let total=0,lulus=0;
+  murid.forEach((n,i)=>{
+    let s=0;
+    for(let m=1;m<=5;m++)
+      s+=Number(document.getElementById(`n${i}${m}`).value)||0;
+    let r=s/5;
+    total+=r;
+    if(r>=75) lulus++;
+  });
+  let rata=(total/murid.length).toFixed(2);
+  hasilRekap.innerHTML=
+    `Rata-rata: ${rata}<br>Lulus: ${lulus}<br>Tidak Lulus: ${murid.length-lulus}`;
+  statRata.innerText="Rata-rata Kelas: "+rata;
+  statLulus.innerText="Murid Lulus: "+lulus;
+}
+
+function cariMurid(){
+  let q=searchM.value.toLowerCase();
+  document.querySelectorAll("#tabelMurid tr").forEach((r,i)=>{
+    if(i==0)return;
+    r.style.display=r.cells[1].innerText.toLowerCase().includes(q)?"":"none";
+  });
+}
+
+function showPage(id){
+  document.querySelectorAll("section[id]").forEach(s=>s.style.display="none");
+  document.getElementById(id).style.display="block";
+}
+
+function logout(){
+  if(confirm("Yakin logout?")){
+    localStorage.clear();
+    location.href="formLogin.html";
+  }
+}
+
+showPage("dashboard");
+</script>
+
+</body>
+</html>
